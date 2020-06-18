@@ -77,5 +77,32 @@ module.exports = {
     }
   },
 
+verifyToken: async (req, res, next) => {
+    const token = req.header("auth-token");
+    if (!token) {
+      return res.status(401).json({
+        error: {
+          message: "please log in to perform this action",
+          success: false,
+        },
+      });
+    }
 
+    try {
+      const verifiedToken = await jwt.verify(token, process.env.SECRET);
+
+      if (!verifiedToken._id) {
+        return res.status(401).json({
+          error: {
+            success: false,
+            message: "Invalid Token, please login to perform this action",
+          },
+        });
+      }
+
+      return next(verifiedToken);
+    } catch (error) {
+      next(error);
+    }
+  }
 };
