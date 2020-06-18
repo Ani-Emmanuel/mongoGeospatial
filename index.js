@@ -1,7 +1,7 @@
 const express = require("express");
 const database = require("./utils/db");
-//const cors = require("cors");
-const routes = require("./routes")
+// const cors = require("cors");
+const routes = require("./routes/map")
 
 require('dotenv').config()
 const { LocalConfig } = require('./utils/config')
@@ -15,7 +15,7 @@ database();
 // Middlewares for service request
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//app.use(cors());
+// app.use(cors());
 
 // Routes
 app.use(routes);
